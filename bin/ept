@@ -1,0 +1,66 @@
+#!/usr/bin/env coffee
+# vim:ft=coffee
+# -*- mode:coffee -*-
+
+Evernote = (require "evernote").Evernote
+enml = require "enml-js"
+OptParse = require "optparse"
+Maybe = require "maybe"
+
+EXEC_SWITCHES = [
+    ["-o", "--outfile [OUTPUT_FILE_PATH]", "Output a content of note to file."]
+    ["-t", "--token [EVERNOTE_TOKEN]", "Access token of your Evernote account. (It read from environment variavles if you seted EVERNOTE_TOKEN)"]
+]
+
+parser = new OptParse.OptionParser EXEC_SWITCHES
+parser.banner = "Usage: ept id_of_note [-o out_file_path]"
+
+options =
+    outfile: Maybe ()->
+        return
+    noteId: ""
+    token: process.env.EVERNOTE_TOKEN
+
+parser.on "outfile", (opt, value) ->
+    options.outfile = Maybe () ->
+        return value
+
+parser.on "token", (opt, value) ->
+    options.token = value
+
+parser.on 2, (value) ->
+    options.noteId = value
+
+enmlToPlaintext = (rawEnml) ->
+    rep = [
+        [/(\r\n|\n|\r)/, " "]
+        [/(<\/(div|ui|li|p|table|tr|dl)>)/ig, "\n"]
+        [/(<br(.*)\/>)/ig, "\n"]
+        [/^\s/gm, ""]
+        [/(<(li)>)/ig, " - "]
+        [/(<([^>]+)>)/ig, ""]
+    ]
+    for pat in rep
+        rawEnml.replace pat[0], pat[1]
+    rawEnml.trim()
+
+main = () ->
+    client = new Evernote.Client
+        token: options.token
+        sandbox: false
+    noteStore = client.getNoteStore()
+    note = noteStore.getNote options.noteId , true, true, true, true, (error, note) ->
+        if error
+            console.error error
+            process.exit -1
+        #console.log note.content
+        content = enml.PlainTextOfENML enmlToPlaintext note.content
+        if options.outfile.isJust()
+            fs = require "fs"
+            fs.writeFileSync options.outfile.value(), content
+        else
+            console.log content
+
+
+parser.parse process.argv
+main()
