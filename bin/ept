@@ -59,7 +59,7 @@ main = () ->
             fs = require "fs"
             fs.writeFileSync options.outfile.value(), content
         else
-            console.log content
+            process.stdout.write content
 
 
 parser.parse process.argv

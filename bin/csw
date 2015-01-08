@@ -1,0 +1,34 @@
+#!/usr/bin/env coffee
+# vim:ft=coffee
+# -*- mode:coffee -*-
+
+removeAreaComment = (str) ->
+    while (str.indexOf "/*") > 0
+        beginPos = str.indexOf "/*"
+        endPos = str.indexOf "*/"
+        str = (str.substring 0, beginPos) + (str.substring (endPos + 2))
+    str
+
+removeWholeLineComment = (inp) ->
+    str = inp
+    while (str.indexOf "\n/*") > 0
+        beginPos = str.indexOf "\n/*"
+        endPos = (str.substring beginPos + 3).indexOf "*/"
+        str = (str.substring 0, beginPos) + (str.substring (beginPos + 3 + endPos + 2))
+    str
+
+countWord = (str, word) ->
+    (str.split word).length - 1
+
+isValidForComment = (str) ->
+    (countWord str, "/*") == (countWord str, "*/")
+    
+
+main = () ->
+    input = (require "fs").readFileSync "/dev/stdin", "utf-8"
+    process.exit -1 unless isValidForComment input
+    delLine = removeWholeLineComment input
+    process.stdout.write removeAreaComment delLine
+
+
+main()
