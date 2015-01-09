@@ -1,0 +1,14 @@
+#!/usr/bin/env coffee
+# vim:ft=coffee
+# -*- mode:coffee -*-
+
+# Join by Newpage
+
+
+main = () ->
+    fs = require "fs"
+    contents = for i in [2..(process.argv.length - 1)]
+        fs.readFileSync process.argv[i], "utf-8"
+    process.stdout.write contents.join "\n［＃改ページ］\n\n\n\n"
+
+main()
