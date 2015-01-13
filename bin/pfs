@@ -2,9 +2,24 @@
 # vim:ft=coffee
 # -*- mode:coffee -*-
 
+EXCLUDES = [
+    "「"
+    "『"
+    "（"
+    "［"
+    "["
+    "("
+    "/"
+]
+
+isBeginingExcludeChar = (str) ->
+    EXCLUDES.reduce (prev, current) ->
+        prev or ((str.charAt 0) == current)
+    , false
+
 pushFullWidthSpace = (str) ->
     ((str.split "\n").map (line) ->
-        if ((line.charAt 0) == "「") or ((line.charAt 0) == "『")
+        if isBeginingExcludeChar line
             line
         else
             "　" + line
