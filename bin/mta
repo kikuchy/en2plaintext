@@ -4,7 +4,7 @@
 
 convertChapter = (str) ->
     str.replace /^\[chapter:(.+)\]$/igm, (f, h) ->
-        "［＃２字下げ］#{h}［＃「#{h}」は中見出し］"
+        "［＃２字下げ］#{h}［＃「#{h}」は大見出し］"
 
 convertRuby = (str) ->
     str.replace /\[\[rb:([^ \[\]]+) > ([^ \[\]]+)\]\]/ig, (f, b, t) ->
