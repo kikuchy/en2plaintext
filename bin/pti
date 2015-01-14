@@ -18,6 +18,10 @@ convertRuby = (str) ->
 SPECIAL_CHARS = [
     ["　", "<0x3000>"]              #全角スペース
     ["--", "<0x2011><0x2011>"]    #分離禁止ハイフン
+    ["——", "<CharStyle:二倍ダーシ><2015><CharStyle:>"]
+    ["！？", "<cTatecuYoko:1>!?<cTatecuYoko:>"]
+    ["！！", "<cTatecuYoko:1>!!<cTatecuYoko:>"]
+    ["？！", "<cTatecuYoko:1>?!<cTatecuYoko:>"]
 ]
 
 convertSpecialCharacters = (str) ->
