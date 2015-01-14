@@ -16,8 +16,8 @@ convertRuby = (str) ->
         "<cRuby:1><cMojiRuby:#{isGroupRuby}><cRubyString:#{t}>#{b}<cRuby:><cMojiRuby:><cRubyString:>"
 
 SPECIAL_CHARS = [
-    ["--", "<0x2011><0x2011>"]    #分離禁止ハイフン
-    ["——", "<CharStyle:二倍ダーシ><2015><CharStyle:>"]
+    ["--", "‑‑"]    #分離禁止ハイフン
+    ["——", "<CharStyle:二倍ダーシ>―<CharStyle:>"]
     ["！？", "<cTatecuYoko:1>!?<cTatecuYoko:>"]
     ["！！", "<cTatecuYoko:1>!!<cTatecuYoko:>"]
     ["？！", "<cTatecuYoko:1>?!<cTatecuYoko:>"]
@@ -38,7 +38,7 @@ trimEveryLine = (str) ->
 
 main = () ->
     input = (require "fs").readFileSync "/dev/stdin", "utf-8"
-    process.stdout.write "<SJIS-MAC>\n"
-    process.stdout.write (convertSpecialCharacters convertRuby convertChapter convertNewpage trimEveryLine input), "utf-8"
+    process.stdout.write "<UNICODE-MAC>\n", "utf16le"
+    process.stdout.write (convertSpecialCharacters convertRuby convertChapter convertNewpage trimEveryLine input), "utf16le"
 
 main()
