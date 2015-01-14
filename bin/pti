@@ -13,10 +13,7 @@ convertChapter = (str) ->
 convertRuby = (str) ->
     str.replace /\[\[rb:([^ \[\]]+) > ([^ \[\]]+)\]\]/ig, (f, b, t) ->
         isGroupRuby = if b.length > 1 then "0" else "1"
-        rtList = (Array.prototype.map.call t, (c) ->
-            "<0x#{ ("0000" + (c.charCodeAt().toString 16)).slice -4 }>"
-        ).join ""
-        "<cRuby:1><cMojiRuby:#{isGroupRuby}><cRubyString:#{rtList}>#{b}<cRuby:0>"
+        "<cRuby:1><cMojiRuby:#{isGroupRuby}><cRubyString:#{t}>#{b}<cRuby:><cMojiRuby:><cRubyString:>"
 
 SPECIAL_CHARS = [
     ["　", "<0x3000>"]              #全角スペース
