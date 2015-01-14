@@ -34,6 +34,6 @@ convertNewpage = (str) ->
 main = () ->
     input = (require "fs").readFileSync "/dev/stdin", "utf-8"
     process.stdout.write "<UNICODE-MAC>\n"
-    process.stdout.write convertSpecialCharacters convertRuby convertChapter convertNewpage input
+    process.stdout.write (convertSpecialCharacters convertRuby convertChapter convertNewpage input), "utf16le"
 
 main()
