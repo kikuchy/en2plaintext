@@ -1,0 +1,38 @@
+#!/usr/bin/env coffee
+# vim:ft=coffee
+# -*- mode:coffee -*-
+
+# pixiv novel syntax to InDesign tagged text
+
+
+convertChapter = (str) ->
+    str.replace /^\[chapter:(.+)\]$/igm, (f, h) ->
+        "<ParaStyle:大見出し>" + h
+
+convertRuby = (str) ->
+    str.replace /\[\[rb:([^ \[\]]+) > ([^ \[\]]+)\]\]/ig, (f, b, t) ->
+        isGroupRuby = if b.length > 1 then "0" else "1"
+        rtList = (Array.prototype.map.call t, (c) ->
+            "<0x#{ ("0000" + (c.charCodeAt().toString 16)).slice -4 }>"
+        ).join ""
+        "<cRuby:1><cMojiRuby:#{isGroupRuby}><cRubyString:#{rtList}>#{b}<cRuby:0>"
+
+SPECIAL_CHARS = [
+    ["　", "<0x3000>"]              #全角スペース
+    ["――", "<0x2011><0x2011>"]    #分離禁止ハイフン
+]
+
+convertSpecialCharacters = (str) ->
+    SPECIAL_CHARS.reduce (prev, current) ->
+        prev.replace (new RegExp current[0], "ig"), current[1]
+    , str
+
+convertNewpage = (str) ->
+    (str.split "[newpage]").join ""
+
+main = () ->
+    input = (require "fs").readFileSync "/dev/stdin", "utf-8"
+    process.stdout.write "<UNICODE-MAC>\n"
+    process.stdout.write convertSpecialCharacters convertRuby convertChapter convertNewpage input
+
+main()
