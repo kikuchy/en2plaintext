@@ -3,11 +3,12 @@
 # -*- mode:coffee -*-
 
 # pixiv novel syntax to InDesign tagged text
+# http://help.adobe.com/ja_JP/indesign/cs/taggedtext/indesign_cs5_taggedtext.pdf
 
 
 convertChapter = (str) ->
     str.replace /^\[chapter:(.+)\]$/igm, (f, h) ->
-        "<ParaStyle:大見出し>" + h
+        "<ParaStyle:大見出し>#{h}\n<ParaStyle:本文>"
 
 convertRuby = (str) ->
     str.replace /\[\[rb:([^ \[\]]+) > ([^ \[\]]+)\]\]/ig, (f, b, t) ->
@@ -19,7 +20,7 @@ convertRuby = (str) ->
 
 SPECIAL_CHARS = [
     ["　", "<0x3000>"]              #全角スペース
-    ["――", "<0x2011><0x2011>"]    #分離禁止ハイフン
+    ["--", "<0x2011><0x2011>"]    #分離禁止ハイフン
 ]
 
 convertSpecialCharacters = (str) ->
