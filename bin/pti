@@ -8,7 +8,7 @@
 
 convertChapter = (str) ->
     str.replace /^\[chapter:(.+)\]$/igm, (f, h) ->
-        "<ParaStyle:大見出し>#{h}\n<ParaStyle:本文>"
+        "<ParaStyle:chapter>#{h}\n<ParaStyle:main>"
 
 convertRuby = (str) ->
     str.replace /\[\[rb:([^ \[\]]+) > ([^ \[\]]+)\]\]/ig, (f, b, t) ->
