@@ -16,8 +16,10 @@ convertRuby = (str) ->
         "<cRuby:1><cMojiRuby:#{isGroupRuby}><cRubyString:#{t}>#{b}<cRuby:><cMojiRuby:><cRubyString:>"
 
 SPECIAL_CHARS = [
+    ["―", "—"]    #0x2015はSJISにできないので0x2014へ変換しておく
     ["--", "‑‑"]    #分離禁止ハイフン
-    ["——", "<CharStyle:二倍ダーシ>―<CharStyle:>"]
+    ["——", "<CharStyle:二倍ダーシ><2015><CharStyle:>"]
+#    ["——", "<CharStyle:二倍ダーシ>―<CharStyle:>"]
     ["！？", "<cTatecuYoko:1>!?<cTatecuYoko:>"]
     ["！！", "<cTatecuYoko:1>!!<cTatecuYoko:>"]
     ["？！", "<cTatecuYoko:1>?!<cTatecuYoko:>"]
