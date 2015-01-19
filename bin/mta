@@ -13,6 +13,10 @@ convertRuby = (str) ->
 convertNewpage = (str) ->
     (str.split "[newpage]").join "［＃改ページ］"
 
+convertFigure = (str) ->
+    str.replace /\[image:(.+\.(png|jpe?g))\]/ig, (f, n) ->
+        "［＃挿絵（#{n}、横1200×縦1600）入る］"
+
 SPECIAL_CHARS = [
     ["！？", "!?［＃「!?」は縦中横］"]
     ["！！", "!!［＃「!!」は縦中横］"]
@@ -26,6 +30,6 @@ convertMarks = (str) ->
 
 main = () ->
     input = (require "fs").readFileSync "/dev/stdin", "utf-8"
-    process.stdout.write convertRuby convertChapter convertNewpage convertMarks input
+    process.stdout.write convertRuby convertChapter convertNewpage convertFigure convertMarks input
 
 main()
