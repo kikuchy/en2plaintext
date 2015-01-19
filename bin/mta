@@ -14,9 +14,9 @@ convertNewpage = (str) ->
     (str.split "[newpage]").join "［＃改ページ］"
 
 SPECIAL_CHARS = [
-    ["！？", "<cTatecuYoko:1>!?<cTatecuYoko:>"]
-    ["！！", "<cTatecuYoko:1>!!<cTatecuYoko:>"]
-    ["？！", "<cTatecuYoko:1>?!<cTatecuYoko:>"]
+    ["！？", "!?［＃「!?」は縦中横］"]
+    ["！！", "!!［＃「!!」は縦中横］"]
+    ["？！", "?!［＃「?!」は縦中横］"]
 ]
 
 convertMarks = (str) ->
