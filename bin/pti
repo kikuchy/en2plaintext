@@ -23,6 +23,8 @@ SPECIAL_CHARS = [
     ["！？", "<cTatecuYoko:1>!?<cTatecuYoko:>"]
     ["！！", "<cTatecuYoko:1>!!<cTatecuYoko:>"]
     ["？！", "<cTatecuYoko:1>?!<cTatecuYoko:>"]
+    ["♪", "<266A>"]
+    ["♡", "<2661>"]
 ]
 
 convertSpecialCharacters = (str) ->
